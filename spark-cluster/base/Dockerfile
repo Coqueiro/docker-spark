@@ -27,8 +27,10 @@ RUN apk add --no-cache curl bash openjdk8-jre python3 py-pip nss libc6-compat \
       && wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.7.4/aws-java-sdk-1.7.4.jar -P $SPARK_HOME/jars/ \
       && wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.3/hadoop-aws-2.7.3.jar -P $SPARK_HOME/jars/ \
       && echo "spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem" >> $SPARK_HOME/conf/spark-defaults.conf.template \
-      && echo "spark.hadoop.fs.s3a.access.key=MY_ACCESS_KEY" >> $SPARK_HOME/conf/spark-defaults.conf.template \
-      && echo "spark.hadoop.fs.s3a.secret.key=MY_SECRET_KEY" >> $SPARK_HOME/conf/spark-defaults.conf.template \
+      && echo "spark.hadoop.fs.s3a.aws.credentials.provider=com.amazonaws.auth.InstanceProfileCredentialsProvider" >> $SPARK_HOME/conf/spark-defaults.conf.template \
+      && echo "spark.hadoop.fs.s3a.bucket.lucas-spark-read-test.aws.credentials.provider=org.apache.hadoop.fs.s3a.AnonymousAWSCredentialsProvider" >> $SPARK_HOME/conf/spark-defaults.conf.template \
+      # && echo "spark.hadoop.fs.s3a.access.key=MY_ACCESS_KEY" >> $SPARK_HOME/conf/spark-defaults.conf.template \
+      # && echo "spark.hadoop.fs.s3a.secret.key=MY_SECRET_KEY" >> $SPARK_HOME/conf/spark-defaults.conf.template \
       && cp $SPARK_HOME/conf/spark-defaults.conf.template $SPARK_HOME/conf/spark-defaults.conf \
       #&& cd /css \
       #&& jar uf /spark/jars/spark-core_2.11-${SPARK_VERSION}.jar org/apache/spark/ui/static/timeline-view.css \
